@@ -40,8 +40,8 @@ function Skeleton({ className }) {
 function LoadingState() {
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                {Array.from({ length: 5 }).map((_, i) => (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {Array.from({ length: 6 }).map((_, i) => (
                     <Skeleton key={i} className="h-28" />
                 ))}
             </div>
@@ -235,8 +235,8 @@ export default function AdminDashboardPage() {
                 />
             ) : (
                 <div className="space-y-6">
-                    {/* Stat Cards Row */}
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                    {/* Stat Cards Grid */}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <StatCard
                             label="Total Products"
                             value={totalProducts}
@@ -269,21 +269,12 @@ export default function AdminDashboardPage() {
                             icon={<PhoneCall className="h-5 w-5 text-blue-500" />}
                             colorClass="bg-blue-50"
                         />
-                    </div>
-
-                    {/* Cancelled (additional card, full-width on mobile, 1/5 on desktop) */}
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
                         <StatCard
                             label="Cancelled"
                             value={statusBreakdown.cancelled}
                             icon={<XCircle className="h-5 w-5 text-red-400" />}
                             colorClass="bg-red-50"
                         />
-                        {/* empty spacers to push cancelled card left on large screens */}
-                        <div className="hidden lg:block" />
-                        <div className="hidden lg:block" />
-                        <div className="hidden lg:block" />
-                        <div className="hidden lg:block" />
                     </div>
 
                     {/* Charts Row */}
