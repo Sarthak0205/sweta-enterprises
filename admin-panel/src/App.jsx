@@ -11,6 +11,7 @@ import PublicInquiryPage from "./pages/PublicInquiryPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AdminProductCreatePage from "./pages/AdminProductCreatePage";
 import AdminProductEditPage from "./pages/AdminProductEditPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import About from "./sections/About";
 import Features from "./sections/Features";
 import Hero from "./sections/Hero";
@@ -56,8 +57,9 @@ export default function App() {
                     >
                         <Route
                             path="/admin"
-                            element={<Navigate to="/admin/inquiries" replace />}
+                            element={<Navigate to="/admin/dashboard" replace />}
                         />
+                        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
                         <Route path="/admin/inquiries" element={<InquiriesPage />} />
                         <Route path="/admin/products" element={<AdminProductsPage />} />
                         <Route path="/admin/products/new" element={<AdminProductCreatePage />} />

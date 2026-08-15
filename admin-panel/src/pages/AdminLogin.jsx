@@ -32,7 +32,7 @@ export default function AdminLogin() {
             localStorage.setItem("adminToken", res.data.token);
 
             // ✅ Redirect to dashboard
-            navigate("/admin/inquiries");
+            navigate("/admin/dashboard");
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");
         } finally {

@@ -70,21 +70,17 @@ export default function AdminLayout() {
 
                 <div className="border-t border-[#ead9ad] my-4" />
 
-                {/* Secondary Nav Links / Disabled / Dashboard */}
-                <div className="space-y-2">
-                    <div
-                        className="flex cursor-not-allowed items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-slate-400 bg-slate-100/50"
-                        title="Dashboard metrics coming soon"
+                {/* Dashboard Nav Link */}
+                <nav className="space-y-2">
+                    <NavLink
+                        to="/admin/dashboard"
+                        className={navLinkClass}
+                        onClick={() => setMobileMenuOpen(false)}
                     >
-                        <div className="flex items-center gap-3">
-                            <LayoutDashboard className="h-5 w-5 shrink-0" />
-                            <span>Dashboard</span>
-                        </div>
-                        <span className="text-[9px] font-bold uppercase tracking-wider bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded">
-                            Soon
-                        </span>
-                    </div>
-                </div>
+                        <LayoutDashboard className="h-5 w-5 shrink-0" />
+                        <span>Dashboard</span>
+                    </NavLink>
+                </nav>
             </div>
 
             {/* Logout Button */}
