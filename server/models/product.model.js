@@ -1,26 +1,36 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    slug: { type: String, required: true, unique: true },
-    shortDescription: String,
-    fullDescription: String,
-
-    hsnCode: String,
-
-    applications: [String],
-
-    specifications: {
-      purity: String,
-      appearance: String,
-      packaging: String,
-      storage: String
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            unique: true,
+        },
+        description: {
+            type: String,
+            default: "",
+            trim: true,
+        },
+        category: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        image: {
+            type: String,
+            default: "",
+            trim: true,
+        },
+        isActive: {
+            type: Boolean,
+            default: true,
+        },
     },
-
-    featured: { type: Boolean, default: false }
-  },
-  { timestamps: true }
+    { timestamps: true }
 );
 
-module.exports = mongoose.model('Product', productSchema);
+productSchema.index({ category: 1, isActive: 1 });
+
+module.exports = mongoose.model("Product", productSchema);

@@ -2,6 +2,7 @@
 node_modules/
 admin-panel/node_modules/
 server/node_modules/
+server/seed/admin.seed.js
 
 # Environment variables
 .env

@@ -1,0 +1,11 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#F6E8BF"/>
+  <rect x="46" y="58" width="708" height="384" rx="24" fill="#FFFDF8" stroke="#B68A2D" stroke-width="4"/>
+  <path d="M132 330C202 238 304 182 432 166C510 156 580 168 656 214V330H132Z" fill="#F4B400" fill-opacity="0.85"/>
+  <path d="M132 298C214 218 320 176 452 176C536 176 606 194 656 230" stroke="#2B2B2B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M174 238L252 330" stroke="#FFF8E1" stroke-width="8" stroke-linecap="round"/>
+  <path d="M266 214L344 330" stroke="#FFF8E1" stroke-width="8" stroke-linecap="round"/>
+  <path d="M370 198L446 330" stroke="#FFF8E1" stroke-width="8" stroke-linecap="round"/>
+  <path d="M484 196L548 330" stroke="#FFF8E1" stroke-width="8" stroke-linecap="round"/>
+  <text x="84" y="406" fill="#2B2B2B" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2">TEXTILE</text>
+</svg>

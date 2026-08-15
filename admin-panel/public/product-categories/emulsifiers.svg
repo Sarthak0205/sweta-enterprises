@@ -1,0 +1,10 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#ECD08B"/>
+  <rect x="46" y="58" width="708" height="384" rx="24" fill="#FFF8E1" stroke="#9A6D00" stroke-width="4"/>
+  <path d="M188 332L276 126L364 332H188Z" fill="#FFFDF8" stroke="#2B2B2B" stroke-width="4"/>
+  <path d="M420 300C420 234 474 180 540 180C606 180 660 234 660 300V332H420V300Z" fill="#F4B400" fill-opacity="0.9" stroke="#2B2B2B" stroke-width="4"/>
+  <rect x="106" y="332" width="590" height="30" rx="15" fill="#C88A00" fill-opacity="0.85"/>
+  <circle cx="276" cy="206" r="24" fill="#FFD54F"/>
+  <circle cx="540" cy="246" r="36" fill="#FFF8E1"/>
+  <text x="84" y="406" fill="#2B2B2B" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2">EMULSIFIERS</text>
+</svg>

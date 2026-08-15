@@ -1,133 +1,127 @@
 const Product = require("../models/product.model");
+const AppError = require("../utils/appError");
+const { PRODUCT_CATEGORY_VALUES } = require("../constants/product-categories");
 
-// ===============================
-// GET ALL PRODUCTS (Public)
-// ===============================
-exports.getAllProducts = async (req, res) => {
+exports.getAllProducts = async (req, res, next) => {
     try {
-        const products = await Product.find().sort({ createdAt: -1 });
+        const { category, includeInactive } = req.query;
+        const query = {};
 
-        res.status(200).json(products);
+        if (includeInactive !== "true") {
+            query.isActive = true;
+        }
+
+        if (category) {
+            if (!PRODUCT_CATEGORY_VALUES.includes(category)) {
+                return next(new AppError(400, `Invalid category. Allowed values: ${PRODUCT_CATEGORY_VALUES.join(", ")}`));
+            }
+
+            query.category = category;
+        }
+
+        const products = await Product.find(query).sort({ category: 1, name: 1 });
+
+        res.status(200).json({
+            success: true,
+            count: products.length,
+            data: products,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// ===============================
-// GET SINGLE PRODUCT BY SLUG (Public)
-// ===============================
-exports.getSingleProduct = async (req, res) => {
+exports.getSingleProduct = async (req, res, next) => {
     try {
-        const product = await Product.findOne({ slug: req.params.slug });
+        const { includeInactive } = req.query;
+        const query = { _id: req.params.id };
+
+        if (includeInactive !== "true") {
+            query.isActive = true;
+        }
+
+        const product = await Product.findOne(query);
 
         if (!product) {
-            return res.status(404).json({ message: "Product not found" });
+            return next(new AppError(404, "Product not found"));
         }
 
-        res.status(200).json(product);
+        res.status(200).json({
+            success: true,
+            data: product,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// ===============================
-// CREATE PRODUCT (Protected)
-// ===============================
-exports.createProduct = async (req, res) => {
+exports.createProduct = async (req, res, next) => {
     try {
-        const {
-            name,
-            shortDescription,
-            fullDescription,
-            hsnCode,
-            applications,
-            specifications,
-            featured
-        } = req.body;
-
-        // Generate slug safely
-        const slug = name
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, "")   // remove special chars like %
-            .replace(/\s+/g, "-");
-
-        // Check duplicate slug
-        const existing = await Product.findOne({ slug });
-        if (existing) {
-            return res.status(400).json({ message: "Product already exists" });
+        const existingProduct = await Product.findOne({ name: req.body.name });
+        if (existingProduct) {
+            return next(new AppError(400, "Product already exists"));
         }
 
-        const product = await Product.create({
-            name,
-            slug,
-            shortDescription,
-            fullDescription,
-            hsnCode,
-            applications,
-            specifications,
-            featured
-        });
+        const product = await Product.create(req.body);
 
         res.status(201).json({
+            success: true,
             message: "Product created successfully",
-            product
+            data: product,
         });
-
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// ===============================
-// UPDATE PRODUCT (Protected)
-// ===============================
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res, next) => {
     try {
+        const currentProduct = await Product.findById(req.params.id);
 
-        // If name is being updated, regenerate slug
-        if (req.body.name) {
-            req.body.slug = req.body.name
-                .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, "")
-                .replace(/\s+/g, "-");
+        if (!currentProduct) {
+            return next(new AppError(404, "Product not found"));
         }
 
-        const updatedProduct = await Product.findByIdAndUpdate(
+        if (req.body.name && req.body.name !== currentProduct.name) {
+            const existingProduct = await Product.findOne({ name: req.body.name });
+            if (existingProduct) {
+                return next(new AppError(400, "Product already exists"));
+            }
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully",
+            data: updatedProduct,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+    try {
+        const product = await Product.findByIdAndUpdate(
             req.params.id,
-            req.body,
-            { new: true }
+            { isActive: false },
+            { new: true, runValidators: true }
         );
 
-        if (!updatedProduct) {
-            return res.status(404).json({ message: "Product not found" });
+        if (!product) {
+            return next(new AppError(404, "Product not found"));
         }
 
         res.status(200).json({
-            message: "Product updated successfully",
-            updatedProduct
+            success: true,
+            message: "Product archived successfully",
+            data: product,
         });
-
     } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// ===============================
-// DELETE PRODUCT (Protected)
-// ===============================
-exports.deleteProduct = async (req, res) => {
-    try {
-        const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-
-        if (!deletedProduct) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-
-        res.status(200).json({
-            message: "Product deleted successfully"
-        });
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };

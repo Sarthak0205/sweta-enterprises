@@ -1,23 +1,27 @@
-const express = require('express');
-const router = express.Router();
+const express = require("express");
 
 const authMiddleware = require("../middleware/auth.middleware");
-
+const { validateRequest } = require("../middleware/validate.middleware");
+const {
+    createProductValidator,
+    updateProductValidator,
+    productIdParamValidator,
+    productCategoryFilterValidator,
+} = require("../validators/product.validator");
 const {
     getAllProducts,
     getSingleProduct,
     createProduct,
     updateProduct,
-    deleteProduct
-} = require('../controllers/product.controller');
+    deleteProduct,
+} = require("../controllers/product.controller");
 
-// Public routes
-router.get('/', getAllProducts);
-router.get('/:slug', getSingleProduct);
+const router = express.Router();
 
-// Protected routes (Admin only)
-router.post('/', authMiddleware, createProduct);
-router.put('/:id', authMiddleware, updateProduct);
-router.delete('/:id', authMiddleware, deleteProduct);
+router.get("/", productCategoryFilterValidator, validateRequest, getAllProducts);
+router.get("/:id", productIdParamValidator, validateRequest, getSingleProduct);
+router.post("/", authMiddleware, createProductValidator, validateRequest, createProduct);
+router.put("/:id", authMiddleware, productIdParamValidator, updateProductValidator, validateRequest, updateProduct);
+router.delete("/:id", authMiddleware, productIdParamValidator, validateRequest, deleteProduct);
 
 module.exports = router;

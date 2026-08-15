@@ -1,0 +1,12 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#F3E0AD"/>
+  <rect x="46" y="58" width="708" height="384" rx="24" fill="#FFFDF8" stroke="#B68A2D" stroke-width="4"/>
+  <rect x="172" y="114" width="138" height="238" rx="30" fill="#FFF8E1" stroke="#2B2B2B" stroke-width="4"/>
+  <rect x="210" y="86" width="62" height="48" rx="14" fill="#C88A00"/>
+  <rect x="342" y="146" width="118" height="206" rx="24" fill="#FFD54F" stroke="#2B2B2B" stroke-width="4"/>
+  <rect x="506" y="168" width="110" height="184" rx="22" fill="#F4B400" fill-opacity="0.9" stroke="#2B2B2B" stroke-width="4"/>
+  <circle cx="236" cy="210" r="22" fill="#FFD54F"/>
+  <circle cx="402" cy="218" r="18" fill="#FFF8E1"/>
+  <circle cx="560" cy="232" r="16" fill="#FFF8E1"/>
+  <text x="84" y="406" fill="#2B2B2B" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2">PERSONAL CARE</text>
+</svg>

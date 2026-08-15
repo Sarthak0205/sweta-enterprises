@@ -1,0 +1,11 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#F6E8BF"/>
+  <rect x="46" y="58" width="708" height="384" rx="24" fill="#FFF8E1" stroke="#B68A2D" stroke-width="4"/>
+  <circle cx="210" cy="182" r="58" fill="#FFD54F"/>
+  <circle cx="318" cy="248" r="78" fill="#F4B400" fill-opacity="0.8"/>
+  <circle cx="446" cy="190" r="48" fill="#C88A00" fill-opacity="0.85"/>
+  <path d="M560 124C528 124 502 150 502 182V338C502 346.837 509.163 354 518 354H602C610.837 354 618 346.837 618 338V182C618 150 592 124 560 124Z" fill="#FFFDF8" stroke="#2B2B2B" stroke-width="4"/>
+  <path d="M535 124H585" stroke="#2B2B2B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M522 308C540 286 580 286 598 308" stroke="#C88A00" stroke-width="6" stroke-linecap="round"/>
+  <text x="84" y="406" fill="#2B2B2B" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2">SURFACTANTS</text>
+</svg>

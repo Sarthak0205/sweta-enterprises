@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-darkText font-sans;
+  }
+}
+
+@layer components {
+  .site-shell {
+    @apply mx-auto max-w-7xl px-6;
+  }
+
+  .section-space {
+    @apply py-24;
+  }
+
+  .theme-panel {
+    @apply rounded-xl border border-[#ead9ad] bg-white shadow-md;
+  }
+
+  .theme-card {
+    @apply rounded-xl border border-[#eedfb8] bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .theme-button-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-darkText px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-accent;
+  }
+
+  .theme-button-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-darkText px-6 py-3 text-sm font-semibold uppercase tracking-wide text-darkText transition hover:bg-darkText hover:text-white;
+  }
+
+  .theme-filter-button {
+    @apply rounded-lg border border-[#e5d39f] bg-white px-5 py-2 text-sm font-semibold text-darkText shadow-sm transition hover:border-accent hover:text-accent;
+  }
+
+  .theme-filter-button-active {
+    @apply border-darkText bg-darkText text-white shadow-md hover:text-white;
+  }
+
+  .theme-input {
+    @apply rounded-lg border border-[#decf9f] bg-cream px-4 py-3 text-sm text-darkText outline-none transition focus:border-accent focus:bg-white;
+  }
+
+  .theme-table {
+    @apply w-full text-left text-sm text-darkText;
+  }
+
+  .theme-table thead {
+    @apply bg-beige;
+  }
+
+  .theme-table th {
+    @apply px-4 py-4 text-xs font-semibold uppercase tracking-wide text-darkText;
+  }
+
+  .theme-table td {
+    @apply px-4 py-4 align-top;
+  }
+
+  .theme-table tbody tr {
+    @apply border-t border-[#efe3c4] transition hover:bg-cream/60;
+  }
+}

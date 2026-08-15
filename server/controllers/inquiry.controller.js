@@ -1,25 +1,35 @@
+const mongoose = require("mongoose");
 const Inquiry = require("../models/inquiry.model");
+const Product = require("../models/product.model");
+const { INQUIRY_STATUS_VALUES } = require("../constants/inquiry-status");
+const AppError = require("../utils/appError");
 
 // ==============================
 // CREATE INQUIRY (Public)
 // ==============================
 exports.createInquiry = async (req, res, next) => {
     try {
-        const { name, company, phone, email, product, message } = req.body;
+        const { name, company, phone, email, product, message, quantity, gst } = req.body;
 
-        const inquiry = await Inquiry.create({
+        const inquiry = new Inquiry({
             name,
             company,
             phone,
             email,
             product,
-            message,
+            quantity,
+            gst,
+            message
         });
 
+        await inquiry.save();
+
         res.status(201).json({
+            success: true,
             message: "Inquiry submitted successfully",
-            inquiry,
+            data: inquiry,
         });
+
     } catch (error) {
         next(error);
     }
@@ -46,6 +56,9 @@ exports.getAllInquiries = async (req, res, next) => {
 
         // 🔹 Status Filter
         if (status) {
+            if (!INQUIRY_STATUS_VALUES.includes(status)) {
+                return next(new AppError(400, `Invalid status filter. Allowed values: ${INQUIRY_STATUS_VALUES.join(", ")}`));
+            }
             query.status = status;
         }
 
@@ -86,12 +99,27 @@ exports.getAllInquiries = async (req, res, next) => {
         const total = await Inquiry.countDocuments(query);
 
         const inquiries = await Inquiry.find(query)
-            .populate("product", "name slug")
             .sort(sortOptions)
             .skip(skip)
             .limit(Number(limit));
 
+        const populatedInquiries = await Promise.all(inquiries.map(async (inq) => {
+            const inqObj = inq.toObject();
+            if (mongoose.isValidObjectId(inqObj.product)) {
+                const prod = await Product.findById(inqObj.product).select("name");
+                if (prod) {
+                    inqObj.product = { _id: prod._id, name: prod.name };
+                } else {
+                    inqObj.product = { name: "Unknown Product" };
+                }
+            } else if (typeof inqObj.product === "string") {
+                inqObj.product = { name: inqObj.product };
+            }
+            return inqObj;
+        }));
+
         res.status(200).json({
+            success: true,
             total,
             page: Number(page),
             pages: Math.ceil(total / limit),
@@ -101,7 +129,7 @@ exports.getAllInquiries = async (req, res, next) => {
                 from: from || null,
                 to: to || null,
             },
-            data: inquiries,
+            data: populatedInquiries,
         });
     } catch (error) {
         next(error);
@@ -122,10 +150,11 @@ exports.updateInquiryStatus = async (req, res, next) => {
         );
 
         if (!inquiry) {
-            return res.status(404).json({ message: "Inquiry not found" });
+            return next(new AppError(404, "Inquiry not found"));
         }
 
         res.status(200).json({
+            success: true,
             message: "Inquiry status updated",
             inquiry,
         });

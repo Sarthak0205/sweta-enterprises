@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { INQUIRY_STATUS_VALUES, INQUIRY_STATUS } = require("../constants/inquiry-status");
 
 const inquirySchema = new mongoose.Schema(
     {
@@ -16,8 +17,16 @@ const inquirySchema = new mongoose.Schema(
             required: true
         },
         product: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product"
+            type: mongoose.Schema.Types.Mixed,
+            ref: "Product",
+            required: true
+        },
+        quantity: {
+            type: String,
+            required: true
+        },
+        gst: {
+            type: String
         },
         message: {
             type: String,
@@ -25,8 +34,8 @@ const inquirySchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["pending", "contacted", "completed", "cancelled"],
-            default: "pending"
+            enum: INQUIRY_STATUS_VALUES,
+            default: INQUIRY_STATUS.PENDING
         }
     },
     { timestamps: true }

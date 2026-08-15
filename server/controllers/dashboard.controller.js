@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Product = require("../models/product.model");
 const Inquiry = require("../models/inquiry.model");
 
@@ -69,10 +70,24 @@ exports.getDashboardStats = async (req, res, next) => {
         // 3️⃣ Latest Inquiries
         // ===============================
 
-        const latestInquiries = await Inquiry.find(dateFilter)
+        const rawLatestInquiries = await Inquiry.find(dateFilter)
             .sort({ createdAt: -1 })
-            .limit(5)
-            .populate("product", "name slug");
+            .limit(5);
+
+        const latestInquiries = await Promise.all(rawLatestInquiries.map(async (inq) => {
+            const inqObj = inq.toObject();
+            if (mongoose.isValidObjectId(inqObj.product)) {
+                const prod = await Product.findById(inqObj.product).select("name");
+                if (prod) {
+                    inqObj.product = { _id: prod._id, name: prod.name };
+                } else {
+                    inqObj.product = { name: "Unknown Product" };
+                }
+            } else if (typeof inqObj.product === "string") {
+                inqObj.product = { name: inqObj.product };
+            }
+            return inqObj;
+        }));
 
         // ===============================
         // 4️⃣ Monthly Analytics
@@ -126,18 +141,26 @@ exports.getDashboardStats = async (req, res, next) => {
             { $limit: 5 },
         ]);
 
-        const populatedTopProducts = await Product.populate(
-            topProductsAggregation,
-            {
-                path: "_id",
-                select: "name slug",
+        const topProducts = [];
+        for (const item of topProductsAggregation) {
+            let productInfo = item._id; // can be ObjectId or String
+            if (mongoose.isValidObjectId(item._id)) {
+                const prod = await Product.findById(item._id).select("name");
+                if (prod) {
+                    productInfo = { _id: prod._id, name: prod.name };
+                } else {
+                    productInfo = { name: "Unknown Product" };
+                }
+            } else if (typeof item._id === "string") {
+                productInfo = { name: item._id };
+            } else {
+                productInfo = { name: "Unknown" };
             }
-        );
-
-        const topProducts = populatedTopProducts.map((item) => ({
-            product: item._id,
-            inquiryCount: item.inquiryCount,
-        }));
+            topProducts.push({
+                product: productInfo,
+                inquiryCount: item.inquiryCount,
+            });
+        }
 
         // ===============================
         // 6️⃣ Growth Comparison

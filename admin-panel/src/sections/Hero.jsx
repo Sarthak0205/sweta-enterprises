@@ -1,65 +1,71 @@
-import { useState } from "react";
-import InquiryModal from "../components/InquiryModal";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
-
-    const [openModal, setOpenModal] = useState(false);
-
     return (
-        <section className="relative bg-gradient-to-br from-secondary via-primary to-accent overflow-hidden">
-            <div className="absolute inset-0 bg-black/5"></div>
+        <section className="relative overflow-hidden bg-gradient-to-br from-secondary via-primary to-accent">
+            <div className="absolute inset-0 bg-black/5" />
 
-            <div className="relative max-w-7xl mx-auto px-6 py-28 grid md:grid-cols-2 gap-16 items-center">
-
-                {/* Left Content */}
-                <div>
-
-                    <h1 className="font-heading font-bold leading-[1.1] mb-6">
-                        <span className="block text-5xl md:text-6xl">
-                            Sweta Enterprises
-                        </span>
-
-                        <span className="block text-3xl md:text-4xl mt-2 font-semibold">
-                            Trusted Bulk Chemical Supplier for Modern Industries
-                        </span>
+            <div className="relative mx-auto grid max-w-7xl gap-16 px-6 py-28 md:grid-cols-2 md:py-32">
+                <div className="text-darkText">
+                    <p className="text-sm font-semibold uppercase tracking-[0.32em] text-darkText/70">
+                        Sweta Enterprises
+                    </p>
+                    <h1 className="mt-6 font-heading text-5xl font-bold leading-[1.05] md:text-6xl">
+                        Trusted Bulk Chemical Supplier & Manufacturer for Modern Industries
                     </h1>
-
-                    <p className="text-lg mb-8 max-w-xl">
-                        We specialize in sourcing and supplying high-quality industrial
-                        chemicals with dependable logistics, transparent pricing,
-                        and scalable distribution partnerships across India.
+                    <p className="mt-6 max-w-xl text-base leading-8 text-darkText/80">
+                        We specialize in sourcing, supplying & manufacturing high-quality industrial chemicals with dependable logistics, transparent pricing, and scalable distribution partnerships across India.
+                    </p>
+                    <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-darkText/70">
+                        Trusted by industrial clients across India
                     </p>
 
-                    <div className="flex gap-6">
-
-                        <button className="bg-accent text-white px-8 py-4 rounded-lg font-semibold uppercase tracking-wide shadow-md hover:shadow-lg transition">
-                            Become a Distributor
-                        </button>
-
-                        <button
-                            onClick={() => setOpenModal(true)}
-                            className="border-2 border-darkText text-darkText px-8 py-4 rounded-lg font-semibold uppercase tracking-wide hover:bg-darkText hover:text-white transition"
+                    <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                        <Link
+                            to="/inquiry?product=General%20Inquiry"
+                            className="theme-button-primary px-8 py-4"
                         >
                             Request Bulk Quote
-                        </button>
-
+                        </Link>
+                        <Link
+                            to="/inquiry"
+                            className="theme-button-secondary px-8 py-4"
+                        >
+                            Become Distributor
+                        </Link>
                     </div>
                 </div>
 
-                {/* Right Image Placeholder */}
-                <div className="bg-white h-96 rounded-lg shadow-lg flex items-center justify-center">
-                    <span className="text-gray-400">
-                        Product / Packaging Visual
-                    </span>
+                <div className="rounded-xl bg-white p-6 shadow-xl">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        {[
+                            "Surfactants",
+                            "Personal Care",
+                            "Emulsifiers",
+                            "Industrial",
+                            "Admin Inquiry Tracking",
+                        ].map((item) => (
+                            <div
+                                key={item}
+                                className="rounded-lg border border-[#eedfb8] bg-cream px-5 py-6 text-sm font-semibold text-darkText shadow-sm"
+                            >
+                                {item}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-6 rounded-lg bg-beige p-6 text-darkText">
+                        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
+                            Why Businesses Choose Us
+                        </p>
+                        <p className="mt-3 text-lg font-heading font-bold">
+                            Reliable sourcing, compliant supply, and commercial support for long-term industrial procurement
+                        </p>
+                        <p className="mt-3 text-sm leading-7 text-darkText/70">
+                            Built around quality assurance, stable dispatch systems, responsive inquiry handling, and scalable supply support for manufacturers, distributors, and institutional buyers.
+                        </p>
+                    </div>
                 </div>
-
             </div>
-
-            {/* Modal */}
-            <InquiryModal
-                isOpen={openModal}
-                onClose={() => setOpenModal(false)}
-            />
         </section>
     );
-}``
+}
